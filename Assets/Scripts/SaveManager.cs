@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField] private Text userNameText; 
-    [SerializeField] private Text userScoreText; 
-    [SerializeField] private Text userPositionText; 
-    
-    [SerializeField] private string userName; 
-    [SerializeField] private int userScore; 
-    [SerializeField] private Vector3 userPosition; 
+    [SerializeField] private Text _userNameText;
+    [SerializeField] private Text _userScoreText;
+    [SerializeField] private Text _userPositionText;
+
+    [SerializeField] private string _userName;
+    [SerializeField] private int _userScore;
+    [SerializeField] private Vector3 _userPosition;
 
     void Start()
     {
@@ -20,37 +20,34 @@ public class SaveManager : MonoBehaviour
 
     public void SaveData()
     {
-        PlayerPrefs.SetString("name", userName);
-        PlayerPrefs.SetInt("score", userScore);
+        PlayerPrefs.SetString("name", _userName);
+        PlayerPrefs.SetInt("score", _userScore);
+        PlayerPrefs.SetFloat("positionX", _userPosition.x);
+        PlayerPrefs.SetFloat("positionZ", _userPosition.z);
+        PlayerPrefs.SetFloat("positionY", _userPosition.y);
 
-        PlayerPrefs.SetFloat("positionX", userPosition.x);
-        PlayerPrefs.SetFloat("positionY", userPosition.y);
-        PlayerPrefs.SetFloat("positionZ", userPosition.z);
-
-        LoadData(); 
+        LoadData();
     }
 
     void LoadData()
     {
-        userNameText.text = "User name: " + PlayerPrefs.GetString("name", "No name");
-        userScoreText.text = "User score: " + PlayerPrefs.GetInt("score", 0).ToString();
-        
-        userPositionText.text = "Player position: " + PlayerPrefs.GetFloat("positionX", 0).ToString() + "x " +
-                                PlayerPrefs.GetFloat("positionY", 0).ToString() + "y " +
-                                PlayerPrefs.GetFloat("positionZ", 0).ToString() + "z"; 
+        _userNameText.text = "User name: " + PlayerPrefs.GetString("name", "No name");
+        _userScoreText.text =  "User score: " + PlayerPrefs.GetInt("score", 0).ToString();
+        _userPositionText.text = "Player position: " + PlayerPrefs.GetFloat("positionX", 0).ToString() + "x " +
+                                PlayerPrefs.GetFloat("positionZ", 0).ToString() + "y " + 
+                                PlayerPrefs.GetFloat("positionY", 0).ToString() + "z ";
     }
 
     public void DeleteData()
     {
         PlayerPrefs.DeleteKey("name");
         PlayerPrefs.DeleteKey("score");
+        PlayerPrefs.DeleteKey("positionX");
+        PlayerPrefs.DeleteKey("positionY");
+        PlayerPrefs.DeleteKey("positionZ");
 
-        PlayerPrefs.DeleteKey("postionX");
-        PlayerPrefs.DeleteKey("postionY");
-        PlayerPrefs.DeleteKey("postionZ");
+        PlayerPrefs.DeleteAll();
 
-        PlayerPrefs.DeleteAll(); 
-
-        LoadData(); 
+        LoadData();
     }
 }
